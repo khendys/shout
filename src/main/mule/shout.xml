@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="229480ee-e577-4610-bfd1-c25029d65567">
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="shoutGetFlow" doc:id="385cdaf7-87d3-470c-b380-98a4c851c63b" >
+		<http:listener doc:name="Listener" doc:id="29da12bb-cedd-4d5c-8b51-caae56971cfc" config-ref="HTTP_Listener_config" outputMimeType="application/json" allowedMethods="GET" path="shout"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e989cb56-9ab3-443f-9aa5-5398aba903fb" message='"shoutGetFlow payload: " + #[payload]'/>
+		<flow-ref doc:name="shoutGetSubFlow" doc:id="ae054fe5-e73f-44ec-9f4c-8eda92b4f81e" name="shoutGetSubFlow"/>
+	</flow>
+	<flow name="shoutPostFlow" doc:id="0dc14a7a-4b29-450e-a436-cd34c0342ae3" >
+		<http:listener doc:name="Listener" doc:id="521917bc-67e7-40d0-8925-c112540b5416" config-ref="HTTP_Listener_config" allowedMethods="POST" path="shout"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c71cb531-3f82-450c-bc47-cfc118c46440" message='"shoutPost payload: " + #[payload]'/>
+		<flow-ref doc:name="shoutPostSubFlow" doc:id="0d622f9a-fd7d-43f8-a90b-b3a67413a18c" name="shoutPostSubFlow"/>
+	</flow>
+</mule>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="shout_io_http_request_config" doc:name="HTTP Request configuration" doc:id="eb6b16b9-b5f9-4bb6-a94a-a27ebf226fc1">
+		<http:request-connection host="API.SHOUTCLOUD.IO" port="80" />
+	</http:request-config>
+	<flow name="shoutCalloutFlow" doc:id="f24f9701-0d7c-4546-ab81-30cbd45cc0bc" >
+		<set-variable value="" doc:name="Set Variable" doc:id="7bc1e77c-2d64-4255-bf35-6aa42176c5a5" variableName="shoutRequest"/>
+		<logger level="INFO" doc:name="Logger" doc:id="35e0bfed-c466-466b-a40f-ba021678d3bf" message='"shout.io request: " + #[vars.shoutRequest]'/>
+		<http:request method="GET" doc:name="Request" doc:id="ab1ba8fb-1ddb-4e11-ba07-b02f20245b59" config-ref="shout_io_http_request_config" path="/V1/SHOUT">
+			<http:body ><![CDATA[#[shoutRequest]]]></http:body>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="6c630639-24eb-49a9-9ae0-bebf328c05fb" message='"shout.io response: " + #[payload]'/>
+	</flow>
+</mule>
